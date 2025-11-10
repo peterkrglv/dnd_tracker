@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from uuid import UUID
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -6,8 +8,16 @@ from app.db.models.user import User
 
 
 class UserRepository:
+    _instance: UserRepository | None = None
+
     def __init__(self, session: AsyncSession):
         self.db = session
+
+    @staticmethod
+    def get_instance(cls, session: AsyncSession) -> UserRepository:
+        if cls._instance is None:
+            cls._instance = cls(session)
+        return cls._instance
 
     async def get_by_email(self, email: str) -> User | None:
         result = await self.db.execute(select(User).where(User.email == email))
@@ -35,4 +45,3 @@ class UserRepository:
         await self.db.commit()
         await self.db.refresh(user)
         return user
-

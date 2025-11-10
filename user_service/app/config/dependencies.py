@@ -11,9 +11,8 @@ security = HTTPBearer()
 
 
 async def get_user_service(db: AsyncSession = Depends(get_async_session)) -> UserService:
-    user_repo = UserRepository(db)
     user_service = UserService()
-    user_service.set_repository(user_repo)
+    user_service.set_repository(UserRepository.get_instance(db))
     return user_service
 
 async def get_current_user(
