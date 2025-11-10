@@ -1,7 +1,9 @@
 *.egg-info
+*.env
 *.idea
 *.py[oc]
 *.venv
+.env
 .idea
 __pycache__/
 build/
