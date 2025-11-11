@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     ports:
-      - "35433:5432"
+      - "45433:5432"
     volumes:
       - dnd_tracker_character_db:/var/lib/postgresql
     command: [ "postgres", "-c", "log_statement=all" ]
