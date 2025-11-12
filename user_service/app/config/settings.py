@@ -4,10 +4,10 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    USER_POSTGRES_HOST: str = 'user_db'
+    USER_POSTGRES_HOST: str = "user_db"
     USER_POSTGRES_USER: str
     USER_POSTGRES_PASSWORD: str
-    USER_POSTGRES_PORT: str = '5432'
+    USER_POSTGRES_PORT: str = "5432"
     USER_POSTGRES_DB: str
 
     @property

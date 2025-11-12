@@ -1,0 +1,23 @@
+handbook-add-deps:
+	cd handbook_service && \
+	poetry add $(deps) && \
+	poetry lock
+	
+handbook-rm-deps:
+	cd handbook_service && \
+	poetry remove $(deps) && \
+	poetry lock
+
+
+handbook-format:
+	cd handbook_service && \
+	poetry run black . && \
+	poetry run ruff check . --fix --select I
+
+handbook-check:
+	cd handbook_service && \
+	poetry run black . --check && \
+	poetry run ruff check .
+
+handbook-mr: handbook-format handbook-check
+

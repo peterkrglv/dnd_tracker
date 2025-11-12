@@ -1,31 +1,31 @@
-from logging.config import dictConfig
 import logging
+from logging.config import dictConfig
 
 
 def logger_settings(service_name, log_level):
     return {
         "version": 1,
         "disable_existing_loggers": False,
-        'filters': {
-            'correlation_id': {
-                '()': 'asgi_correlation_id.CorrelationIdFilter',
-                'uuid_length': 32,
-                'default_value': '-',
+        "filters": {
+            "correlation_id": {
+                "()": "asgi_correlation_id.CorrelationIdFilter",
+                "uuid_length": 32,
+                "default_value": "-",
             },
         },
         "formatters": {
             "default": {
                 "()": "uvicorn.logging.DefaultFormatter",
-                "fmt": f'[%(asctime)s ] [%(levelprefix)s] /{service_name} %(pathname)s %(name)s:%(funcName)s:%(lineno)d] - %(message)s',
+                "fmt": f"[%(asctime)s ] [%(levelprefix)s] /{service_name} %(pathname)s %(name)s:%(funcName)s:%(lineno)d] - %(message)s",
                 "datefmt": "%Y-%m-%d %H:%M:%S",
-                "use_colors": True
+                "use_colors": True,
             },
             "access": {
                 "()": "uvicorn.logging.AccessFormatter",
-                "fmt": f'[%(asctime)s %(levelprefix)s /{service_name}] '
-                       f'- "%(request_line)s" %(status_code)s',
+                "fmt": f"[%(asctime)s %(levelprefix)s /{service_name}] "
+                f'- "%(request_line)s" %(status_code)s',
                 "datefmt": "%Y-%m-%d %H:%M:%S",
-                "use_colors": True
+                "use_colors": True,
             },
         },
         "handlers": {
@@ -33,7 +33,7 @@ def logger_settings(service_name, log_level):
                 "formatter": "default",
                 "class": "logging.StreamHandler",
                 "stream": "ext://sys.stderr",
-                'filters': ['correlation_id'],
+                "filters": ["correlation_id"],
             },
             "access": {
                 "formatter": "access",
@@ -42,19 +42,16 @@ def logger_settings(service_name, log_level):
             },
         },
         "loggers": {
-            "logger": {
-                "handlers": ["default"],
-                "level": f"{log_level}"
-            },
+            "logger": {"handlers": ["default"], "level": f"{log_level}"},
             "uvicorn.access": {
                 "handlers": ["access"],
                 "level": f"{log_level}",
-                "propagate": False
+                "propagate": False,
             },
         },
     }
 
 
-log_settings = logger_settings('USER_SERVICE', 'DEBUG')
+log_settings = logger_settings("USER_SERVICE", "DEBUG")
 dictConfig(log_settings)
-logger = logging.getLogger('logger')
+logger = logging.getLogger("logger")

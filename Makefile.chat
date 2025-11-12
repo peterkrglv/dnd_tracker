@@ -1,0 +1,24 @@
+chat-add-deps:
+	cd chat_service && \
+	poetry add $(deps) && \
+	poetry lock
+	
+chat-rm-deps:
+	cd chat_service && \
+	poetry remove $(deps) && \
+	poetry lock
+
+
+chat-format:
+	cd chat_service && \
+	poetry run black . && \
+	poetry run ruff check . --fix --select I
+
+chat-check:
+	cd chat_service && \
+	poetry run black . --check && \
+	poetry run ruff check .
+
+chat-mr: chat-format chat-check
+
+

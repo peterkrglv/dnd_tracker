@@ -1,0 +1,25 @@
+dice-add-deps:
+	cd dice_service && \
+	poetry add $(deps) && \
+	poetry lock
+	
+dice-rm-deps:
+	cd dice_service && \
+	poetry remove $(deps) && \
+	poetry lock
+
+
+dice-format:
+	cd dice_service && \
+	poetry run black . && \
+	poetry run ruff check . --fix --select I
+
+dice-check:
+	cd dice_service && \
+	poetry run black . --check && \
+	poetry run ruff check .
+
+dice-mr: dice-format dice-check
+
+
+

@@ -4,11 +4,11 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    AUTH_POSTGRES_HOST: str = 'localhost'
-    AUTH_POSTGRES_USER: str = 'postgres'
-    AUTH_POSTGRES_PASSWORD: str = 'postgres'
-    AUTH_POSTGRES_PORT: str = '35432'
-    AUTH_POSTGRES_DB: str = 'dnd_character'
+    AUTH_POSTGRES_HOST: str = "localhost"
+    AUTH_POSTGRES_USER: str = "postgres"
+    AUTH_POSTGRES_PASSWORD: str = "postgres"
+    AUTH_POSTGRES_PORT: str = "35432"
+    AUTH_POSTGRES_DB: str = "dnd_character"
 
     @property
     def DATABASE_URL(self) -> str:

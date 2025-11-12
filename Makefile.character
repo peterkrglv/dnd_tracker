@@ -1,0 +1,23 @@
+character-add-deps:
+	cd character_service && \
+	poetry add $(deps) && \
+	poetry lock
+	
+character-rm-deps:
+	cd character_service && \
+	poetry remove $(deps) && \
+	poetry lock
+
+
+character-format:
+	cd character_service && \
+	poetry run black . && \
+	poetry run ruff check . --fix --select I
+
+character-check:
+	cd character_service && \
+	poetry run black . --check && \
+	poetry run ruff check .
+
+character-mr: character-format character-check
+
