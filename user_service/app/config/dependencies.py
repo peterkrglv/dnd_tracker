@@ -13,7 +13,7 @@ async def get_user_service(
     db: AsyncSession = Depends(get_async_session),
 ) -> UserService:
     user_service = UserService()
-    user_service.set_repository(UserRepository.get_instance(db))
+    user_service.set_repository(UserRepository(db))
     return user_service
 
 
