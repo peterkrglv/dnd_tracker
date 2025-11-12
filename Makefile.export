@@ -1,0 +1,26 @@
+export-add-deps:
+	cd export_service && \
+	poetry add $(deps) && \
+	poetry lock
+	
+export-rm-deps:
+	cd export_service && \
+	poetry remove $(deps) && \
+	poetry lock
+
+
+export-format:
+	cd export_service && \
+	poetry run black . && \
+	poetry run ruff check . --fix --select I
+
+export-check:
+	cd export_service && \
+	poetry run black . --check && \
+	poetry run ruff check .
+
+export-mr: export-format export-check
+
+
+
+

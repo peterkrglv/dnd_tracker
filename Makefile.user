@@ -1,0 +1,46 @@
+user-migrations:
+	cd user_service && \
+	docker-compose up -d --build user_db && \
+	poetry run alembic revision --autogenerate -m "$(msg)" && \
+	docker-compose stop user_db
+
+user-migrate:
+	cd user_service && \
+	docker-compose up -d --build user_db && \
+	poetry run alembic upgrade head && \
+	docker-compose stop user_db
+
+user-all:
+	cd user_service && \
+	docker-compose up -d --build
+
+user-db:
+	cd user_service && \
+	docker-compose up -d --build user_db
+
+user-service:
+	cd user_service && \
+	docker-compose up -d --build user_service
+
+user-add-deps:
+	cd user_service && \
+	poetry add $(deps) && \
+	poetry lock
+	
+user-rm-deps:
+	cd user_service && \
+	poetry remove $(deps) && \
+	poetry lock
+
+
+user-format:
+	cd user_service && \
+	poetry run black . && \
+	poetry run ruff check . --fix --select I
+
+user-check:
+	cd user_service && \
+	poetry run black . --check && \
+	poetry run ruff check .
+
+user-mr: user-format user-check

@@ -1,9 +1,11 @@
-# Python-generated files
-__pycache__/
+*.egg-info
+*/.env
+*.idea
 *.py[oc]
+*.venv
+.env
+.idea
+__pycache__/
 build/
 dist/
 wheels/
-*.egg-info
-
-*.venv

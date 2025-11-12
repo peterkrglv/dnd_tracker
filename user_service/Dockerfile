@@ -1,25 +1,17 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+FROM python:3.12-slim
+
+ENV POETRY_VERSION=1.8.3 \
+    POETRY_HOME="/opt/poetry" \
+    PATH="$POETRY_HOME/bin:$PATH"
+RUN pip install --no-cache-dir poetry==$POETRY_VERSION
 
 WORKDIR /app
 
-ENV UV_COMPILE_BYTECODE=1
-ENV UV_LINK_MODE=copy
+COPY pyproject.toml poetry.lock ./
 
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    gcc \
-    build-essential
-
-COPY pyproject.toml ./
-COPY uv.lock ./
-
-RUN --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-dev
+RUN poetry install --no-root --no-dev
 
 COPY . .
 
-ENV PATH="/app/.venv/bin:$PATH"
+CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
 
-CMD ["uv", "run", "main.py", "--host", "0.0.0.0"]

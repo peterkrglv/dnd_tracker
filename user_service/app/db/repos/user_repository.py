@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 from uuid import UUID
 
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.db.models.user import User
 
 
@@ -35,4 +38,3 @@ class UserRepository:
         await self.db.commit()
         await self.db.refresh(user)
         return user
-

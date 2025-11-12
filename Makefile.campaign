@@ -1,0 +1,22 @@
+campaign-add-deps:
+	cd campaign_service && \
+	poetry add $(deps) && \
+	poetry lock
+	
+campaign-rm-deps:
+	cd campaign_service && \
+	poetry remove $(deps) && \
+	poetry lock
+
+
+campaign-format:
+	cd campaign_service && \
+	poetry run black . && \
+	poetry run ruff check . --fix --select I
+
+campaign-check:
+	cd campaign_service && \
+	poetry run black . --check && \
+	poetry run ruff check .
+
+campaign-mr: campaign-format campaign-check

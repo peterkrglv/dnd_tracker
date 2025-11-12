@@ -1,0 +1,44 @@
+name: Multi-Service Checks
+
+on:
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service:
+          - campaign
+          - character
+          - chat
+          - dice
+          - export
+          - handbook
+          - setting
+          - user
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Configure Poetry (disable venv creation)
+        run: poetry config virtualenvs.create false
+
+      - name: Install dependencies for ${{ matrix.service }}_service
+        working-directory: ./${{ matrix.service }}_service
+        run: poetry install --no-interaction --no-root
+
+      - name: Run make ${{ matrix.service }}-check
+        run: make ${{ matrix.service }}-check
+

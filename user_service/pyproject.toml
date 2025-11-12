@@ -1,23 +1,50 @@
-[project]
-name = "auth-service"
+[tool.poetry]
+name = "user-service"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "alembic>=1.16.4",
-    "asgi-correlation-id>=4.3.4",
-    "asyncpg>=0.30.0",
-    "bcrypt>=4.3.0",
-    "fastapi>=0.116.1",
-    "passlib>=1.7.4",
-    "psycopg>=3.2.9",
-    "psycopg2>=2.9.10",
-    "pydantic[email]>=2.11.7",
-    "pydantic-settings>=2.10.1",
-    "python-dotenv>=1.1.1",
-    "python-jose>=3.5.0",
-    "sqlalchemy>=2.0.41",
-    "uvicorn>=0.35.0",
-    "argon2-cffi>=25.1.0",
+description = ""
+authors = ["d.zaklyakov"]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<4.0"
+alembic = ">=1.17.1,<2.0.0"
+argon2-cffi = ">=25.1.0,<26.0.0"
+asgi-correlation-id = ">=4.3.4,<5.0.0"
+asyncpg = ">=0.30.0,<0.31.0"
+bcrypt = ">=5.0.0,<6.0.0"
+fastapi = ">=0.121.1,<0.122.0"
+passlib = ">=1.7.4,<2.0.0"
+psycopg = ">=3.2.12,<4.0.0"
+psycopg2-binary = ">=2.9.11,<3.0.0"
+pydantic = { version = ">=2.12.4,<3.0.0", extras = ["email"] }
+pydantic-settings = ">=2.12.0,<3.0.0"
+python-dotenv = ">=1.2.1,<2.0.0"
+python-jose = ">=3.5.0,<4.0.0"
+sqlalchemy = ">=2.0.44,<3.0.0"
+uvicorn = ">=0.38.0,<0.39.0"
+numpy = "^2.3.4"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.11.0"
+ruff = "^0.14.4"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+target-version = ["py312"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+fix = true
+lint.select = ["E", "F", "I", "B"]
+lint.ignore = [
+    "E501",  # black conflict
+    "B008"  # Do not perform function call `Depends` in argument defaults 
 ]
+exclude = ["alembic", "migrations", "__pycache__"]
+
+
