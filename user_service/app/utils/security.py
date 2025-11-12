@@ -36,7 +36,7 @@ def decode_token(token: str) -> dict:
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
-        )
+        ) from JWTError
 
 
 def get_user_id_from_token(token: str) -> UUID:
