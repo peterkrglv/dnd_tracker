@@ -1,11 +1,24 @@
-name: Lint & Format Check
+name: Multi-Service Checks
 
 on:
   pull_request:
-    branches: [master]
+    branches: [ main, master, develop ]
+
 jobs:
   lint:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        service:
+          - campaign
+          - character
+          - chat
+          - dice
+          - export
+          - handbook
+          - setting
+          - user
 
     steps:
       - name: Checkout repository
@@ -19,12 +32,13 @@ jobs:
       - name: Install Poetry
         run: pip install poetry
 
-      - name: Configure poetry
+      - name: Configure Poetry (disable venv creation)
         run: poetry config virtualenvs.create false
 
-      - name: Install dependencies
+      - name: Install dependencies for ${{ matrix.service }}_service
+        working-directory: ./${{ matrix.service }}_service
         run: poetry install --no-interaction --no-root
 
-      - name: Run checks
-        run: make check
+      - name: Run make ${{ matrix.service }}-check
+        run: make ${{ matrix.service }}-check
 
