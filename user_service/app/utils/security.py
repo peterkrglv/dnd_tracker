@@ -5,7 +5,7 @@ from fastapi import HTTPException, status
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from app.config.settings import settings
+from user_service.app.config.settings import settings
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
@@ -33,10 +33,10 @@ def decode_token(token: str) -> dict:
             token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM]
         )
         return payload
-    except JWTError:
+    except JWTError as err:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
-        ) from JWTError
+        ) from err
 
 
 def get_user_id_from_token(token: str) -> UUID:
