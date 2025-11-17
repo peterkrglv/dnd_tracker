@@ -7,7 +7,7 @@ from user_service.app.db.models.user import User
 
 @pytest.fixture
 def fake_email(faker):
-    return f"{faker.pystr()}@{faker.pystr()}.{faker.pystr(max_chars=3)}"
+    return faker.email()
 
 
 @pytest.fixture(autouse=True)
