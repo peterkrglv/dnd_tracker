@@ -37,7 +37,7 @@ jobs:
 
       - name: Install dependencies for ${{ matrix.service }}_service
         working-directory: ./${{ matrix.service }}_service
-        run: poetry install --no-interaction --no-root && cp .env.example .env
+        run: poetry install --no-interaction --no-root
 
       - name: Run make ${{ matrix.service }}-check
         run: make ${{ matrix.service }}-check
