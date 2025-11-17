@@ -1,7 +1,8 @@
-import pytest
 from unittest.mock import AsyncMock
-from user_service.app.db.models.user import User
+
+import pytest
 from starlette.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
+from user_service.app.db.models.user import User
 
 
 @pytest.fixture
@@ -11,7 +12,9 @@ def fake_email(faker):
 
 @pytest.fixture(autouse=True)
 def mock_verify_password(mocker):
-    return mocker.patch("user_service.app.user_service.verify_password", return_value=True)
+    return mocker.patch(
+        "user_service.app.user_service.verify_password", return_value=True
+    )
 
 
 @pytest.fixture
@@ -68,7 +71,9 @@ def test_signup_ok(client, fake_user, fake_user_signup_request_data, mock_user_r
     assert set(response_json) == {"access_token", "token_type"}
 
 
-def test_signup_return_400_if_user_exists(client, fake_user, fake_user_signup_request_data, mock_user_repo):
+def test_signup_return_400_if_user_exists(
+    client, fake_user, fake_user_signup_request_data, mock_user_repo
+):
     mock_user_repo(create=fake_user, get_by_email=fake_user)
 
     response = client.post("/signup", json=fake_user_signup_request_data)
@@ -80,7 +85,7 @@ def test_signup_return_400_if_user_exists(client, fake_user, fake_user_signup_re
 
 def test_login_ok(client, fake_user, fake_user_login_request_data, mock_user_repo):
     mock_user_repo(get_by_email=fake_user)
- 
+
     response = client.post("/login", json=fake_user_login_request_data)
 
     response_json = response.json()
@@ -89,12 +94,13 @@ def test_login_ok(client, fake_user, fake_user_login_request_data, mock_user_rep
     assert set(response_json) == {"access_token", "token_type"}
 
 
-def test_login_return_401_if_user_not_found(client, fake_user_login_request_data, mock_user_repo):
+def test_login_return_401_if_user_not_found(
+    client, fake_user_login_request_data, mock_user_repo
+):
     mock_user_repo()
- 
+
     response = client.post("/login", json=fake_user_login_request_data)
 
     response_json = response.json()
     assert response.status_code == HTTP_401_UNAUTHORIZED
     assert response_json["detail"] == "Incorrect email or password"
-
