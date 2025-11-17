@@ -41,7 +41,7 @@ user-format:
 user-check:
 	cd user_service && \
 	poetry run black . --check && \
-	poetry run ruff check . && \
+	poetry run ruff check .
 	
 user-test:
 	cd user_service && \
