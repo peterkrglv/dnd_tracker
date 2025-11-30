@@ -21,5 +21,9 @@ dice-check:
 
 dice-mr: dice-format dice-check
 
+dice-service:
+	cd dice_service && \
+	docker-compose up -d --build dice_service
+
 
 

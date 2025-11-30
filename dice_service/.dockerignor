@@ -1,0 +1,5 @@
+__pycache__
+*.pyc
+mystem*
+*.tar.gz
+*.venv
