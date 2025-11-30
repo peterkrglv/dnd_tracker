@@ -1,3 +1,4 @@
+from starlette.responses import JSONResponse
 
 from dice_service.app.config.dependencies import get_dice_service
 from dice_service.app.services.dice_service import DiceService
@@ -13,8 +14,14 @@ router = APIRouter(tags=["dice"])
 
 @router.get("/dice_roll/{dice}")
 async def dice_roll(dice: int, dice_service: DiceService = Depends(get_dice_service)):
-    result = await dice_service.roll_dice(dice)
-    return DiceRollResponse(roll_result=result)
+    try:
+        result = await dice_service.roll_dice(dice)
+        return DiceRollResponse(roll_result=result)
+    except ValueError as e:
+        return JSONResponse(
+            status_code=422,
+            content={"detail": str(e)}
+        )
 
 
 @router.get("/dice_roll_mod/{dice}")

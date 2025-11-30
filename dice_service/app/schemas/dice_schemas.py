@@ -1,3 +1,4 @@
+from fastapi import Query
 from pydantic import BaseModel
 
 
@@ -6,8 +7,8 @@ class DiceRollResponse(BaseModel):
 
 
 class DiceRollModRequest(BaseModel):
-    mod: int | None = 0
-    roll_count: int | None = 1
+    mod: int = Query(0, ge=-100, le=100)
+    roll_count: int = Query(1, ge=1, le=100)
 
 
 class DiceRollModResponse(BaseModel):

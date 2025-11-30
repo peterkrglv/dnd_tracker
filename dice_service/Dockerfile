@@ -2,10 +2,12 @@ FROM python:3.12-slim
 
 ENV POETRY_VERSION=1.8.3 \
     POETRY_HOME="/opt/poetry" \
-    PATH="$POETRY_HOME/bin:$PATH"
+    PATH="$POETRY_HOME/bin:$PATH" \
+    PYTHONPATH="/"
+
 RUN pip install --no-cache-dir poetry==$POETRY_VERSION
 
-WORKDIR /app
+WORKDIR /dice_service
 
 COPY pyproject.toml poetry.lock ./
 
@@ -13,6 +15,5 @@ RUN poetry install --no-root --no-dev
 
 COPY . .
 
-ENV PYTHONPATH=/app
 
 CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8002", "--reload"]

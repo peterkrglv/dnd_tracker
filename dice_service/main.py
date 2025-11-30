@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.config.settings import settings
-from app.routers.dice_routes import router
+from dice_service.app.routers.dice_routes import router
 
 import logging
 
