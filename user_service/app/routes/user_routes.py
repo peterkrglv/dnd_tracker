@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends
 
-from user_service.app.config.dependencies import get_current_user, get_user_service
-from user_service.app.db.models.user import User
-from user_service.app.schemas.user_schemas import (
+from app.config.dependencies import get_current_user, get_user_service
+from app.db.models.user import User
+from app.schemas.user_schemas import (
     TokenResponse,
     UserLogin,
     UserResponse,
     UserSignup,
     UserUpdate,
 )
-from user_service.app.user_service import UserService
+from app.user_service import UserService
 
 router = APIRouter(tags=["user"])
 

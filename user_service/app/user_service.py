@@ -3,9 +3,9 @@ from uuid import UUID
 from fastapi import HTTPException, status
 from pydantic import EmailStr
 
-from user_service.app.db.models.user import User
-from user_service.app.db.repos.user_repository import UserRepository
-from user_service.app.utils.security import (
+from app.db.models.user import User
+from app.db.repos.user_repository import UserRepository
+from app.utils.security import (
     create_access_token,
     get_password_hash,
     get_user_id_from_token,

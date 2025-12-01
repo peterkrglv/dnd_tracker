@@ -33,14 +33,13 @@ target_metadata = Base.metadata
 USER = os.getenv("CHARACTER_POSTGRES_USER")
 PASSWORD = os.getenv("CHARACTER_POSTGRES_PASSWORD")
 DB = os.getenv("CHARACTER_POSTGRES_DB")
-DB_HOST = os.getenv("CHARACTER_POSTGRES_HOST", "localhost")
-DB_PORT = os.getenv("CHARACTER_POSTGRES_PORT", "5432")
+DB_HOST = os.getenv("CHARACTER_POSTGRES_HOST")
+DB_PORT = os.getenv("CHARACTER_POSTGRES_PORT")
 
-# SQLALCHEMY_DATABASE_URL = (
-#     f"postgresql+psycopg2://{CHARACTER}:{PASSWORD}@{DB_HOST}:{DB_PORT}/{DB}"
-# )
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://character_service:secure_password@localhost:45433/character_service_db"
 
+SQLALCHEMY_DATABASE_URL = (
+    f"postgresql+psycopg2://{USER}:{PASSWORD}@{DB_HOST}:{DB_PORT}/{DB}"
+)
 
 def run_migrations_offline() -> None:
     context.configure(

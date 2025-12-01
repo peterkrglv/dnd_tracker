@@ -2,7 +2,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 from starlette.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
-from user_service.app.db.models.user import User
+from app.db.models.user import User
 
 
 @pytest.fixture

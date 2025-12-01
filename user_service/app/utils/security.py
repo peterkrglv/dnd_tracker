@@ -5,7 +5,7 @@ from fastapi import HTTPException, status
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from user_service.app.config.settings import settings
+from app.config.settings import settings
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 

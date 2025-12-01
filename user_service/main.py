@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from user_service.app.config.settings import settings
-from user_service.app.routes.user_routes import router
+from app.config.settings import settings
+from app.routes.user_routes import router
 
 app = FastAPI(title="User Service", root_path="/api/v1/user")
 
