@@ -1,0 +1,37 @@
+services:
+  campaign_db:
+    image: postgres:14
+    container_name: dnd_tracker_campaign_db
+    environment:
+      POSTGRES_USER: ${CAMPAIGN_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${CAMPAIGN_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${CAMPAIGN_POSTGRES_DB}
+    env_file:
+      - .env
+    ports:
+      - "35433:5432"
+    volumes:
+      - dnd_tracker_campaign_db:/var/lib/postgresql
+    command: [ "postgres", "-c", "log_statement=all" ]
+    restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${CAMPAIGN_POSTGRES_USER} || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  campaign_service:
+    build: .
+    container_name: dnd_tracker_campaign_service
+    volumes:
+      - .:/app
+    ports:
+      - "8003:8003"
+    depends_on:
+      campaign_db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+volumes:
+  dnd_tracker_campaign_db:

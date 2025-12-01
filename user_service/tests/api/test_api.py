@@ -1,8 +1,8 @@
-from unittest.mock import AsyncMock
+from unittest.mock import MagicMock
 
 import pytest
 from starlette.status import HTTP_200_OK, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
-from user_service.app.db.models.user import User
+from app.db.models.user import User
 
 
 @pytest.fixture
@@ -46,7 +46,7 @@ def fake_user(fake_user_signup_request_data):
 @pytest.fixture
 def mock_user_repo(mocker):
     def wrapper(get_by_email=None, get_by_id=None, create=None, update_user=None):
-        mock_repo = AsyncMock()
+        mock_repo = MagicMock()
         mock_repo.get_by_email.return_value = get_by_email
         mock_repo.get_by_id.return_value = get_by_id
         mock_repo.create.return_value = create

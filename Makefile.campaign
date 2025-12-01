@@ -1,3 +1,27 @@
+campaign-migrations:
+	cd campaign_service && \
+	docker-compose up -d --build campaign_db && \
+	poetry run alembic revision --autogenerate -m "$(msg)" && \
+	docker-compose stop campaign_db
+
+campaign-migrate:
+	cd campaign_service && \
+	docker-compose up -d --build campaign_db && \
+	poetry run alembic upgrade head && \
+	docker-compose stop campaign_db
+
+campaign-all:
+	cd campaign_service && \
+	docker-compose up -d --build
+
+campaign-db:
+	cd campaign_service && \
+	docker-compose up -d --build campaign_db
+
+campaign-service:
+	cd campaign_service && \
+	docker-compose up -d --build campaign_service
+
 campaign-add-deps:
 	cd campaign_service && \
 	poetry add $(deps) && \
@@ -18,5 +42,9 @@ campaign-check:
 	cd campaign_service && \
 	poetry run black . --check && \
 	poetry run ruff check .
+	
+campaign-test:
+	cd campaign_service && \
+	poetry run pytest
 
-campaign-mr: campaign-format campaign-check
+campaign-mr: campaign-format campaign-check campaign-test

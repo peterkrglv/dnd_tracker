@@ -2,9 +2,9 @@ from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from user_service.app.db.db_vitals import get_async_session
-from user_service.app.db.repos.user_repository import UserRepository
-from user_service.app.user_service import UserService
+from app.db.db_vitals import get_async_session
+from app.db.repos.user_repository import UserRepository
+from app.user_service import UserService
 
 security = HTTPBearer()
 
