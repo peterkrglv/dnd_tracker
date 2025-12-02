@@ -1,11 +1,23 @@
 [tool.poetry]
 name = "setting-service"
 version = "0.1.0"
-description = ""
+description = "D&D Setting Service"
 authors = ["d.zaklyakov"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.12,<4.0"
+fastapi = ">=0.121.1,<0.122.0"
+uvicorn = ">=0.38.0,<0.39.0"
+pydantic = { version = ">=2.12.4,<3.0.0", extras = ["email"] }
+pydantic-settings = ">=2.12.0,<3.0.0"
+pymongo = ">=4.8.0,<5.0.0"
+asgi-correlation-id = ">=4.3.4,<5.0.0"
+python-jose = {extras = ["cryptography"], version = ">=3.5.0,<4.0.0"}
+passlib = {extras = ["bcrypt"], version = ">=1.7.4,<2.0.0"}
+python-dotenv = ">=1.2.1,<2.0.0"
+pytest = "^9.0.1"
+httpx = "^0.28.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.11.0"
@@ -25,8 +37,11 @@ target-version = "py312"
 fix = true
 lint.select = ["E", "F", "I", "B"]
 lint.ignore = [
-    "E501",  # black conflict
-    "B008"  # Do not perform function call `Depends` in argument defaults 
+    "E501",
+    "B008",
 ]
 exclude = ["alembic", "migrations", "__pycache__"]
+
+[tool.pytest.ini_options]
+pythonpath = [".."]
 

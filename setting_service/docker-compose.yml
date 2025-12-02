@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  setting_db:
+    image: mongo:5.0
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${SETTING_MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${SETTING_MONGO_PASSWORD}
+    ports:
+      - "27021:27017"
+    volumes:
+      - setting_db_data:/data/db
+
+  setting_service:
+    build: .
+    env_file: .env
+    depends_on:
+      - setting_db
+    ports:
+      - "8083:8083"
+    command: poetry run uvicorn main:app --host 0.0.0.0 --port 8083
+
+volumes:
+  setting_db_data:
