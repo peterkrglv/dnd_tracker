@@ -1,0 +1,29 @@
+services:
+  handbook_db:
+    image: mongo:5.0
+    container_name: dnd_tracker_handbook_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${HANDBOOK_MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${HANDBOOK_MONGO_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "27018:27017"
+    volumes:
+      - dnd_tracker_handbook_db:/data/db
+    restart: on-failure
+
+  handbook_service:
+    build: .
+    container_name: dnd_tracker_handbook_service
+    volumes:
+      - .:/app
+    ports:
+      - "8010:8010"
+    depends_on:
+      - handbook_db
+    env_file:
+      - .env
+
+volumes:
+  dnd_tracker_handbook_db:

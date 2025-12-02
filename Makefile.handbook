@@ -1,13 +1,24 @@
+handbook-all:
+	cd handbook_service && \
+	docker-compose up -d --build
+
+handbook-db:
+	cd handbook_service && \
+	docker-compose up -d --build handbook_db
+
+handbook-service:
+	cd handbook_service && \
+	docker-compose up -d --build handbook_service
+
 handbook-add-deps:
 	cd handbook_service && \
 	poetry add $(deps) && \
 	poetry lock
-	
+
 handbook-rm-deps:
 	cd handbook_service && \
 	poetry remove $(deps) && \
 	poetry lock
-
 
 handbook-format:
 	cd handbook_service && \
@@ -19,5 +30,8 @@ handbook-check:
 	poetry run black . --check && \
 	poetry run ruff check .
 
-handbook-mr: handbook-format handbook-check
+handbook-test:
+	cd handbook_service && \
+	poetry run pytest
 
+handbook-mr: handbook-format handbook-check handbook-test
