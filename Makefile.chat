@@ -19,6 +19,23 @@ chat-check:
 	poetry run black . --check && \
 	poetry run ruff check .
 
+chat-test:
+	cd chat_service && \
+	poetry run pytest
+
+
+chat-all:
+	cd chat_service && \
+	docker-compose up -d --build
+
+chat-db:
+	cd chat_service && \
+	docker-compose up -d --build chat_db
+
+chat-service:
+	cd chat_service && \
+	docker-compose up -d --build chat_service
+
 chat-mr: chat-format chat-check
 
 

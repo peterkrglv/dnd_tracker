@@ -1,0 +1,29 @@
+services:
+  chat_db:
+    image: mongo:5.0
+    container_name: dnd_tracker_chat_db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${CHAT_MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${CHAT_MONGO_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "27019:27017"
+    volumes:
+      - dnd_tracker_chat_db:/data/db
+    restart: on-failure
+
+  chat_service:
+    build: .
+    container_name: dnd_tracker_chat_service
+    volumes:
+      - .:/app
+    ports:
+      - "8011:8011"
+    depends_on:
+      - chat_db
+    env_file:
+      - .env
+
+volumes:
+  dnd_tracker_chat_db:
