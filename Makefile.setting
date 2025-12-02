@@ -21,3 +21,21 @@ setting-check:
 
 setting-mr: setting-format setting-check
 
+
+setting-test:
+	cd setting_service && \
+	poetry run pytest
+
+
+setting-all:
+	cd setting_service && \
+	docker-compose up -d --build
+
+setting-db:
+	cd setting_service && \
+	docker-compose up -d --build setting_db
+
+setting-service:
+	cd setting_service && \
+	docker-compose up -d --build setting_service
+
