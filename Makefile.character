@@ -2,12 +2,15 @@ character-add-deps:
 	cd character_service && \
 	poetry add $(deps) && \
 	poetry lock
-	
+
 character-rm-deps:
 	cd character_service && \
 	poetry remove $(deps) && \
 	poetry lock
 
+character-all:
+	cd character_service && \
+	docker-compose up -d --build
 
 character-format:
 	cd character_service && \
@@ -21,3 +24,14 @@ character-check:
 
 character-mr: character-format character-check
 
+character-migrations:
+	cd character_service && \
+	docker-compose up -d --build character_db && \
+	poetry run alembic revision --autogenerate -m "$(msg)" && \
+	docker-compose stop character_db
+
+character-migrate:
+	cd character_service && \
+	docker-compose up -d --build character_db && \
+	poetry run alembic upgrade head && \
+	docker-compose stop character_db
